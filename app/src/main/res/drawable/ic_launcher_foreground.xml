@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 체크리스트 형태의 아이콘 (배경 위 흰색 전경) -->
+    <group android:scaleX="2.2" android:scaleY="2.2" android:translateX="27" android:translateY="27">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M4,3h11c0.55,0 1,0.45 1,1v0c0,0.55 -0.45,1 -1,1H4c-0.55,0 -1,-0.45 -1,-1v0C3,3.45 3.45,3 4,3z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M4,10h11c0.55,0 1,0.45 1,1v0c0,0.55 -0.45,1 -1,1H4c-0.55,0 -1,-0.45 -1,-1v0C3,10.45 3.45,10 4,10z" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M4,17h7c0.55,0 1,0.45 1,1v0c0,0.55 -0.45,1 -1,1H4c-0.55,0 -1,-0.45 -1,-1v0C3,17.45 3.45,17 4,17z" />
+        <path
+            android:fillColor="#C7D2FF"
+            android:pathData="M18.5,15.2l1.3,1.3l3.2,-3.2l1.1,1.1l-4.3,4.3l-2.4,-2.4z" />
+    </group>
+</vector>
