@@ -20,12 +20,20 @@ import java.time.YearMonth
 data class CalendarUiState(
     val yearMonth: YearMonth = YearMonth.now(),
     val selectedDate: LocalDate = LocalDate.now(),
-    val countsByDate: Map<LocalDate, DayCount> = emptyMap(),
+    val countsByDate: Map<LocalDate, DayInfo> = emptyMap(),
     val selectedTasks: List<Task> = emptyList(),
-)
+    val monthTotal: Int = 0,
+    val monthDone: Int = 0,
+) {
+    val selectedDone: Int get() = selectedTasks.count { it.isCompleted }
+}
 
-/** 특정 날짜의 전체/완료 건수. */
-data class DayCount(val total: Int, val done: Int)
+/** 특정 날짜의 전체/완료 건수와 대표 카테고리 색(최대 3개). */
+data class DayInfo(
+    val total: Int,
+    val done: Int,
+    val categoryColors: List<Long>,
+)
 
 private data class CalendarControls(
     val yearMonth: YearMonth,
@@ -47,7 +55,14 @@ class CalendarViewModel(
                 .filter { it.dueDate != null }
                 .groupBy { it.dueDate!! }
                 .mapValues { (_, list) ->
-                    DayCount(total = list.size, done = list.count { it.isCompleted })
+                    val colors = list
+                        .groupingBy { it.category }
+                        .eachCount()
+                        .entries
+                        .sortedByDescending { it.value }
+                        .map { it.key.colorArgb }
+                        .take(3)
+                    DayInfo(total = list.size, done = list.count { it.isCompleted }, categoryColors = colors)
                 }
 
             val selectedTasks = tasks
@@ -58,11 +73,17 @@ class CalendarViewModel(
                         .thenByDescending { it.priority.weight },
                 )
 
+            val monthTasks = tasks.filter {
+                it.dueDate != null && YearMonth.from(it.dueDate) == control.yearMonth
+            }
+
             CalendarUiState(
                 yearMonth = control.yearMonth,
                 selectedDate = control.selectedDate,
                 countsByDate = counts,
                 selectedTasks = selectedTasks,
+                monthTotal = monthTasks.size,
+                monthDone = monthTasks.count { it.isCompleted },
             )
         }.stateIn(
             scope = viewModelScope,

@@ -7,6 +7,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -16,6 +18,10 @@ private val LightColors = lightColorScheme(
     primaryContainer = LightPrimaryContainer,
     onPrimaryContainer = LightOnPrimaryContainer,
     secondary = LightSecondary,
+    onSecondary = LightOnSecondary,
+    secondaryContainer = LightSecondaryContainer,
+    onSecondaryContainer = LightOnSecondaryContainer,
+    tertiary = LightTertiary,
     background = LightBackground,
     onBackground = LightOnSurface,
     surface = LightSurface,
@@ -23,6 +29,10 @@ private val LightColors = lightColorScheme(
     surfaceVariant = LightSurfaceVariant,
     onSurfaceVariant = LightOnSurfaceVariant,
     outline = LightOutline,
+    outlineVariant = LightOutlineVariant,
+    error = LightError,
+    errorContainer = LightErrorContainer,
+    onErrorContainer = LightOnErrorContainer,
 )
 
 private val DarkColors = darkColorScheme(
@@ -31,6 +41,10 @@ private val DarkColors = darkColorScheme(
     primaryContainer = DarkPrimaryContainer,
     onPrimaryContainer = DarkOnPrimaryContainer,
     secondary = DarkSecondary,
+    onSecondary = DarkOnSecondary,
+    secondaryContainer = DarkSecondaryContainer,
+    onSecondaryContainer = DarkOnSecondaryContainer,
+    tertiary = DarkTertiary,
     background = DarkBackground,
     onBackground = DarkOnSurface,
     surface = DarkSurface,
@@ -38,7 +52,17 @@ private val DarkColors = darkColorScheme(
     surfaceVariant = DarkSurfaceVariant,
     onSurfaceVariant = DarkOnSurfaceVariant,
     outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant,
+    error = DarkError,
+    errorContainer = DarkErrorContainer,
+    onErrorContainer = DarkOnErrorContainer,
 )
+
+/** 앱 시그니처 그라데이션 (인디고 → 바이올렛). */
+val BrandBrush: Brush
+    get() = Brush.linearGradient(listOf(BrandStart, BrandEnd))
+
+fun brandBrush(): Brush = Brush.linearGradient(listOf(BrandStart, BrandEnd))
 
 @Composable
 fun TaskFlowTheme(
@@ -60,3 +84,7 @@ fun TaskFlowTheme(
         content = content,
     )
 }
+
+// 흰 글자용 반투명 색(그라데이션 헤더 위 텍스트)
+val OnBrand = Color(0xFFFFFFFF)
+val OnBrandMuted = Color(0xCCFFFFFF)

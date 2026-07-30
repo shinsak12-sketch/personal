@@ -43,8 +43,12 @@ class TaskEditViewModel(
 ) : ViewModel() {
 
     private val taskId: Long = savedStateHandle.get<Long>(Routes.TASK_EDIT_ARG) ?: -1L
+    private val presetDate: LocalDate? =
+        savedStateHandle.get<String>(Routes.TASK_EDIT_DATE_ARG)
+            ?.takeIf { it.isNotBlank() }
+            ?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
 
-    private val _uiState = MutableStateFlow(TaskEditUiState())
+    private val _uiState = MutableStateFlow(TaskEditUiState(dueDate = presetDate))
     val uiState: StateFlow<TaskEditUiState> = _uiState.asStateFlow()
 
     init {

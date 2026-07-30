@@ -72,7 +72,7 @@ fun TaskFlowNavHost(initialTaskId: Long = -1L) {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Routes.DASHBOARD,
+            startDestination = Routes.CALENDAR,
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(Routes.DASHBOARD) {
@@ -96,9 +96,7 @@ fun TaskFlowNavHost(initialTaskId: Long = -1L) {
             }
             composable(Routes.CALENDAR) {
                 CalendarScreen(
-                    onAddTask = { date ->
-                        navController.navigate(Routes.taskEdit())
-                    },
+                    onAddTask = { date -> navController.navigate(Routes.taskEdit(date = date.toString())) },
                     onOpenTask = { id -> navController.navigate(Routes.taskEdit(id)) },
                 )
             }
@@ -108,6 +106,10 @@ fun TaskFlowNavHost(initialTaskId: Long = -1L) {
                     navArgument(Routes.TASK_EDIT_ARG) {
                         type = NavType.LongType
                         defaultValue = -1L
+                    },
+                    navArgument(Routes.TASK_EDIT_DATE_ARG) {
+                        type = NavType.StringType
+                        defaultValue = ""
                     },
                 ),
             ) {

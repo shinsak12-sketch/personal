@@ -20,7 +20,6 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -40,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.taskflow.data.model.Category
 import com.taskflow.ui.AppViewModelProvider
 import com.taskflow.ui.components.EmptyState
+import com.taskflow.ui.components.GradientFab
 import com.taskflow.ui.components.TaskRow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,10 +72,13 @@ fun TaskListScreen(
                 },
             )
         },
+        containerColor = MaterialTheme.colorScheme.background,
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddTask) {
-                Icon(Icons.Filled.Add, contentDescription = "추가")
-            }
+            GradientFab(
+                onClick = onAddTask,
+                icon = Icons.Filled.Add,
+                contentDescription = "추가",
+            )
         },
     ) { padding ->
         Column(

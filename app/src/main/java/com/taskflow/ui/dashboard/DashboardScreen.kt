@@ -1,6 +1,8 @@
 package com.taskflow.ui.dashboard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +19,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,14 +28,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.taskflow.ui.AppViewModelProvider
 import com.taskflow.ui.components.EmptyState
+import com.taskflow.ui.components.GradientFab
 import com.taskflow.ui.components.SectionHeader
 import com.taskflow.ui.components.TaskRow
+import com.taskflow.ui.theme.OnBrand
+import com.taskflow.ui.theme.OnBrandMuted
+import com.taskflow.ui.theme.brandBrush
 import com.taskflow.ui.util.toKorean
 import kotlin.math.roundToInt
 
@@ -48,11 +54,12 @@ fun DashboardScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         floatingActionButton = {
-            ExtendedFloatingActionButton(
+            GradientFab(
                 onClick = onAddTask,
-                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text("새 일정") },
+                icon = Icons.Filled.Add,
+                contentDescription = "새 일정",
             )
         },
     ) { padding ->
@@ -97,17 +104,26 @@ fun DashboardScreen(
 
 @Composable
 private fun Header(state: DashboardUiState) {
-    Column {
-        Text(
-            text = greetingFor(),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-        )
-        Text(
-            text = "${state.today.toKorean()} · 진행 중 ${state.activeTotal}건",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(28.dp))
+            .background(brandBrush())
+            .padding(20.dp),
+    ) {
+        Column {
+            Text(
+                text = greetingFor(),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = OnBrand,
+            )
+            Text(
+                text = "${state.today.toKorean()} · 진행 중 ${state.activeTotal}건",
+                style = MaterialTheme.typography.bodyMedium,
+                color = OnBrandMuted,
+            )
+        }
     }
 }
 
